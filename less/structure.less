@@ -1,0 +1,47 @@
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+}
+
+.flex-container {
+    display: flex;
+    position: relative;
+    flex: 1;
+}
+.flex-container.vertical {
+    flex-direction: column;
+}
+.flex-container.horizontal {
+    flex-direction: row;
+}
+.flex-pane {
+    display:flex;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+.flex-pane.left {
+
+}
+
+
+.emud-app {
+    height: 100%;
+}
+.emud-body {
+    height: 100%;
+
+    .emud-tool-panel {
+        flex: 1;
+    }
+    .emud-main-panel {
+        flex: 3;
+    }
+}
+
+
+.emud-footer {
+    height: 25px;
+}
