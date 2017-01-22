@@ -8,14 +8,14 @@ module.exports = function(grunt) {
                     compress : true
                 },
                 files : {
-                    'css/structure.css' : 'less/structure.less',
-                    'css/style.css' : 'less/style.less'
+                    'src/css/structure.css' : 'src/less/structure.less',
+                    'src/css/style.css' : 'src/less/style.less'
                 }
             }
         },
         watch : {
             lessWatch : {
-                files: ['less/**/*.less'],
+                files: ['src/less/**/*.less'],
                 tasks: ['less']
             }
         }
