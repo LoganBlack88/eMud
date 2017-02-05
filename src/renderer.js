@@ -2,11 +2,14 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
-const Connection = require('./core/connection.js');
-//const Connection = require('./core/telnet-client-connection.js');
-//const Connection = require('./core/net-socket-connection.js');
+const Connection = require('./core/io/Connection.js');
 
-console.log('renderer.js');
+const UserInputBar = require('./ui/inputBar.js');
+const OutputWindow = require('./ui/outputWindow.js');
+
+let inputBar = new UserInputBar();
+let outputWindow = new OutputWindow();
+
 
 let params = {
 

@@ -1,15 +1,23 @@
 
 const Socket = require('net').Socket;
 const TelnetInput = require('telnet-stream').TelnetInput;
+const EventBus = require('../../core/bus/EventBus.js');
+const EVENTS = EventBus.events;
 
 
 module.exports = class Connection {
+
     constructor(params) {
         this.params = params;
+        let that = this;
         let telnetIn = this.telnetIn = new TelnetInput();
         let socket = this.socket = new Socket();
+        let eventBus = this.eventBus = EventBus.getInstance();
 
 
+        eventBus.subscribe(EVENTS.USER_INPUT_RECIEVED, 300, function(data){
+            that.write(data.currentText);
+        });
 
 
         // TODO: When code is more stable, clean these up or relegate them to debugging logs.
@@ -27,27 +35,26 @@ module.exports = class Connection {
     }
 
     connect() {
+        let that = this;
         let socket = this.socket;
         let telnetIn = this.telnetIn;
-        let that = this;
+        let eventBus = this.eventBus;
 
         socket.connect(this.params, () => {
             console.log('socket connected to ' + this.params.host + ':' + this.params.port);
 
-            // When data is spread across multiple packets, this will collect them all
-            // before passing them to the telnetIn.on('data') handler.
             socket.pipe(telnetIn).pipe(process.stdout);
-
 
             telnetIn.on('data', (data) => {
                 console.log('telnet on data');
-                console.log(data.toString());
+                console.log(data);
+
+                let event = {
+                    originalData : data.toString(),
+                    currentData : data.toString()
+                };
+                eventBus.publish(EVENTS.SERVER_DATA_RECIEVED, event);
             });
-
-
-            setTimeout(() => {
-                that.write("Grognak");
-            }, 2000);
         });
     }
 
@@ -55,7 +62,6 @@ module.exports = class Connection {
         console.log('writing : "' + line + '"');
 
         //TODO: Depending on the size of the command being sent, we might really want/need a buffer here.
-
 
         this.socket.write(line + '\n');
     }

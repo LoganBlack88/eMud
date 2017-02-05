@@ -41,7 +41,19 @@ html, body {
 
         .emud-output-panel {
             flex: 1;
+
+            #OutputWindow {
+                margin: 5px;
+
+                p {
+                    margin: 0;
+                    white-space: pre-wrap;
+                    /*TODO: This should be a setting. */
+                    font-family: "Courier New", Courier, monospace;
+                }
+            }
         }
+
         .emud-input-panel {
 
             input[type=text] {
